@@ -1,0 +1,13 @@
+.feedContainer{
+    flex:5.5;
+    background-color: rgb(243, 251, 253);
+    min-height: calc(100vh - 50px);
+    /* overflow-x: scroll;
+    scroll-snap-type: none; */
+    top:50px;
+}
+
+.feedWrapper{
+    padding:20px;
+    /* background-color: antiquewhite; */
+}
