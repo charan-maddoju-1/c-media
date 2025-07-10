@@ -2,25 +2,39 @@ import "./post.css"
 import {MoreVert, ThumbUpOutlined,ThumbUp,FavoriteBorderOutlined,Favorite} from '@mui/icons-material';
 
 // import {Users} from "../../dummyData.js"
-import React, { useState ,useEffect} from "react";
+import React, { useState ,useEffect, useContext} from "react";
 import axios from "axios";
 import {format} from "timeago.js";
 import {Link} from "react-router-dom";
+
+import {AuthContext} from "../../context/AuthContext";
+
+
 export default function Post(props){
     //making public folder accessible 
     const PF= process.env.REACT_APP_PUBLIC_FOLDER;
     //
     // console.log(PF);
     const {postDetails}=props;
+    const {user} = useContext(AuthContext);
     // const postedUser=Users.find(userDetails=>userDetails.id===postDetails.userId);
     
     const [like,setLike]=useState(postDetails.likes.length);
     const [isLiked, setIsLiked]=useState(false);
 
+    useEffect(()=>{
+        setIsLiked(postDetails.likes.includes(user._id));
+    },[user._id]);
     const likeHandler=()=>{
         // console.log("hello");
+        try{
+            axios.put(`/api/posts/${postDetails._id}/like`,{"userId":user._id});
+            // console.log("like sent to mongodb");
+        }
+        catch(err){
+            console.log(err);
+        }
         setLike(isLiked ? like-1 : like+1);
-       
         setIsLiked(!isLiked);
          console.log(like,isLiked)
     }
@@ -28,7 +42,7 @@ export default function Post(props){
     const [postedUser, setUser]=useState({});
     useEffect(()=>{
         const fetchUser=async ()=>{
-            const res=await axios.get(`/api/users/${postDetails.userId}`);
+            const res=await axios.get(`/api/users?userId=${postDetails.userId}`);
             setUser(res.data);
             console.log(res.data);
         }
@@ -42,7 +56,7 @@ export default function Post(props){
                     <div className="postTopLeft">
                         <Link to={`profile/${postedUser.username}`}>
                         <img 
-                        src={postedUser.profilePicture || PF+"profile-pics/noProfile.jpeg"} 
+                        src={postedUser.profilePicture!==""? PF+postedUser.profilePicture: PF+"profile-pics/noProfile.jpeg"} 
                         alt="" className="postProfileImage" 
                         />
                         </Link>
