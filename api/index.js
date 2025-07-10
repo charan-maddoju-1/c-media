@@ -11,6 +11,8 @@ const userRouter=require("./routes/users") //importing the user file created fro
 //So we can add different routes for different pages as we need
 const authRouter=require("./routes/auth") 
 const postRouter=require("./routes/posts") 
+const path=require("path");
+const multer=require("multer");
 
 dotenv.config();//to use dotenv it is compulsory;
 
@@ -22,6 +24,25 @@ app.use((req, res, next) => {
   console.log("INCOMING REQUEST:", req.method, req.url);
   next();
 });
+
+app.use("/images", express.static(path.join(__dirname,"/public/images")));//providing path to images present in api public folder
+//uploading file to disk storage in our computer
+const storage=multer.diskStorage({
+  destination:(req,file,cb)=>{
+    cb(null,"public/images");
+  },
+  filename:(req,file,cb)=>{
+    cb(null, req.query.name);
+  }
+})
+const upload=multer({storage});
+app.post("/api/upload",upload.single("file"),(req,res)=>{
+  try{
+    res.status(200).json("file uploaded successfully");
+  }catch{
+    console.log(err);
+  }
+})
 
 //middle wares
 app.use(express.json());

@@ -12,11 +12,20 @@ export default function Feed({username}){
 
     useEffect(()=>{
         const fetchPosts=async ()=>{
-            const res= username?
-            await axios.get("/api/posts/profile/"+username):
-            await axios.get("/api/posts/timeline/"+user._id);
-            setPosts(res.data);
-            console.log(res.data);
+             try {
+                let res;
+                if (username) {
+                    res = await axios.get("/api/posts/profile/" + username);
+                } else {
+                    res = await axios.get("/api/posts/timeline/" + user._id);
+                }
+
+                setPosts(res.data);
+                console.log(res.data);
+            } 
+            catch (err) {
+            console.error("Error fetching posts:", err); // ✅ catches the promise error
+            }
         }
         fetchPosts();
     },[username,user._id])
@@ -24,7 +33,7 @@ export default function Feed({username}){
     return(
         <div className="feedContainer">
             <div className="feedWrapper">
-                <Share/>
+                {((!username)||username===user.username)&&<Share/>}
                 {posts.map(eachPost=>
                     <Post key={eachPost._id} postDetails={eachPost}/>
                 )}

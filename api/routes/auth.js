@@ -35,21 +35,24 @@ router.post("/register",async (req,res)=>{
 
 
 //LOGIN
-router.post("/login",async (req,res)=>{
-    try{
-        const userFromDB=await User.findOne({email:req.body.email})
-        !userFromDB&&res.status(404).json("User not found");
-
-        const validPassword=await bcrypt.compare(req.body.password,userFromDB.password);
-        !validPassword&&res.status(404).json("Invalid password");
-
-        res.status(200).json(userFromDB);
+router.post("/login", async (req, res) => {
+  try {
+    const userFromDB = await User.findOne({ email: req.body.email });
+    if (!userFromDB) {
+      return res.status(404).json("User not found");
     }
-    catch(err){
-        console.log(err);
-    }
-    
 
-})
+    const validPassword = await bcrypt.compare(req.body.password, userFromDB.password);
+    if (!validPassword) {
+      return res.status(400).json("Invalid password");
+    }
+
+    res.status(200).json(userFromDB);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json("Server error");
+  }
+});
+
 
 module.exports=router;

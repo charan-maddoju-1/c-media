@@ -54,7 +54,7 @@ export default function Post(props){
             <div className="postWrapper">
                 <div className="postTopSection">
                     <div className="postTopLeft">
-                        <Link to={`profile/${postedUser.username}`}>
+                        <Link to={`/profile/${postedUser.username}`}>
                         <img 
                         src={postedUser.profilePicture!==""? PF+postedUser.profilePicture: PF+"profile-pics/noProfile.jpeg"} 
                         alt="" className="postProfileImage" 
@@ -64,12 +64,12 @@ export default function Post(props){
                         <span className="postedTime">{format(postDetails.createdAt)}</span>
                     </div>
                     <div className="postTopRight">
-                        <MoreVert/>
+                        <MoreVert className="postDropDownIcon"/>
                     </div>
                 </div>
                 <div className="postMiddleSection">
                         <p className="postDescription">{postDetails?.description}</p>
-                    <img src={PF+postDetails.image} alt="" className="postImage" />
+                    <img src={postDetails.image!==""?PF+postDetails.image:null} alt="" className="postImage" />
                 </div>
                 <div className="postBottomSection">
                     <div className="postBottomLeft">

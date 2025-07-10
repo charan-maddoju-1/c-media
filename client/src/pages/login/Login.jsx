@@ -5,6 +5,7 @@ import { AuthContext } from '../../context/AuthContext';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -21,6 +22,11 @@ const handleClick=async (event)=>{
 }
 console.log(user);
 
+const navigate=useNavigate();
+const handleRegister=()=>{
+    navigate("/");
+}
+
   return (
     <div className='loginContainer'>
         <div className="loginWrapper">
@@ -33,9 +39,9 @@ console.log(user);
                     <input placeholder="Email id" type="email" className="loginInput" ref={email} required/>
                     <input placeholder="Password" type="password" className="loginInput" ref={password} required minLength="6" />
                     <button className="loginButton" >{isFetching? 
-      <CircularProgress color='white' size="15px" />:"Login"}</button>
+                    <CircularProgress color='white' size="15px" />:"Login"}</button>
                     <span className="loginForgot">Forgot Password ?</span>
-                    <button className="loginRegisterButton">Create Account</button>
+                    <button className="loginRegisterButton" onClick={handleRegister}>Create Account</button>
                 </form>
             </div>
         </div> 

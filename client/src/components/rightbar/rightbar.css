@@ -44,6 +44,20 @@
 }
 
 
+.rightbarFollowButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:40px;
+    width:50%;
+    outline: none;
+    border-radius: 8px;
+    background-color: rgb(48, 111, 238);
+    color: aliceblue;
+    border:none;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
 
 
 .rightbarTitle{

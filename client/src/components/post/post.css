@@ -47,6 +47,10 @@ margin-bottom:20px;
 
 }
 
+.postDropDownIcon{
+    cursor:pointer;
+}
+
 .postMiddleSection{
     display:flex;
     flex-direction: column;

@@ -2,6 +2,7 @@ import "./share.css"
 import {PermMedia,Label,Room,EmojiEmotions} from "@mui/icons-material"
 import { useContext, useState ,useRef} from "react";
 import {AuthContext} from "../../context/AuthContext";
+import CancelIcon from '@mui/icons-material/Cancel';
 
 import axios from "axios";
 
@@ -14,13 +15,32 @@ export default function Share(){
 
     const submitHandler=async (event)=>{
         event.preventDefault();
+        if(!description||!file){
+            console.log("Nothing to share");
+            return;
+        }
         console.log("post submitted");
         const newPost={
-            userId: user._id,
-            description:description.current.value,
+            "userId": user._id,
+            "description":description.current.value,
+        }
+        if(file){
+            const fileName=Date.now()+file.name;
+            const data=new FormData();
+            data.append("file",file);
+            data.append("name",fileName);
+            newPost.image=fileName;
+            try{
+                await axios.post(`/api/upload?name=${fileName}`,data);
+            }
+            catch(err){
+                console.log(err);
+            }
+           
         }
         try{
             await axios.post("/api/posts/",newPost);
+            window.location.reload();
         }   
         catch(err){
             console.log(err);
@@ -36,6 +56,14 @@ export default function Share(){
                     <input placeholder="What's in your mind buddy ?" type="text" className="shareInput" ref={description} />
                 </div>
                 <hr className="shareHr" />
+                {file&&
+                <div className="shareImageContainer">
+                    <CancelIcon className="shareCancelImg" onClick={()=>{setFile(null)}}/>
+                    <img src={URL.createObjectURL(file)} alt="" className="shareImage" />
+                    
+                </div>
+                }
+
                 <form className="shareBottom" onSubmit={submitHandler}>
                     <div className="shareOptions">
                         <PermMedia htmlColor="tomato" className="shareIcon"/>
