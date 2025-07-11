@@ -1,6 +1,9 @@
 const router=require("express").Router();
 const Post=require("../models/Post.js");
 const User=require("../models/User.js");
+const path=require("path");
+const fs=require("fs");
+
 router.get("/",async (req,res) => {
     console.log("post page");
 })
@@ -16,6 +19,7 @@ router.post("/",async(req,res)=>{
         res.status(403).json(err);
     }
 })
+
 //update post
 router.put("/:id",async(req,res)=>{
     try{
@@ -37,18 +41,30 @@ router.put("/:id",async(req,res)=>{
 router.delete("/:id",async(req,res)=>{
     try{
         const post=await Post.findById(req.params.id);
-        if(post.userId===req.body.userId){
+
+            if(post.userId===req.body.userId){
+                if(post.image!==""){
+                const filePath = path.join(__dirname,"../public/images/",post.image); // construct full file path
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                    console.error("Failed to delete file:", err);
+                    } else {
+                    console.log("Deleted image:", post.image);
+                    }
+                })
+            }
+
             await post.deleteOne();
             res.status(200).json("Deleted post Successfully");
         }
         else{
             return res.status(403).json("You are not allowed to delete this post");
-        }
+        } 
     }
     catch(err){
+        console.log(err);
         res.status(500).json(err);
-    }
-    
+    }  
 })
 //like a post
 router.put("/:id/like",async (req,res) => {

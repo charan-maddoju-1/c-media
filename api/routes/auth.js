@@ -29,7 +29,12 @@ router.post("/register",async (req,res)=>{
         res.status(200).json(user);
     }
     catch(err){
-        console.log(err);
+        if (err.code === 11000) {
+            // Duplicate key error (user already exists)
+            res.status(409).json({ message: "User already exists" });
+        } else {
+            res.status(500).json({ message: "Server error" });
+        }
     }
 })
 

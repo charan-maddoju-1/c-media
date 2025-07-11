@@ -47,6 +47,13 @@ margin-bottom:20px;
 
 }
 
+.postDropdownMenu{
+    right: -1px;
+}
+.postDropdownItem{
+    color:red;
+}
+
 .postDropDownIcon{
     cursor:pointer;
 }

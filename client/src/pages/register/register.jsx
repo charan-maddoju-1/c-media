@@ -27,7 +27,7 @@ export default function Register() {
             return;
         }
         else{
-            // confirmPassword.current.setCustomValidity("");
+            confirmPassword.current.setCustomValidity("");
             const user={
                 "username":username.current.value,
                 "email":email.current.value,
@@ -37,9 +37,14 @@ export default function Register() {
                 await axios.post("api/auth/register",user);
                 navigate("/login",{replace:true});
             }
-            catch(err){
-                console.log(err);
-            } 
+            catch (err) {
+                if (err.response?.status === 409) {
+                    alert("User already exists. Please login.");
+                    navigate("/login");
+                } else {
+                    alert("Registration failed.");
+                }
+            }
         }  
     }
     const handleLogin=()=>{

@@ -1,11 +1,13 @@
 import "./post.css"
-import {MoreVert, ThumbUpOutlined,ThumbUp,FavoriteBorderOutlined,Favorite} from '@mui/icons-material';
-
+import {MoreVert, ThumbUpOutlined,ThumbUp,FavoriteBorderOutlined,Favorite, WindowOutlined} from '@mui/icons-material';
+import 'bootstrap/dist/css/bootstrap.min.css';
 // import {Users} from "../../dummyData.js"
-import React, { useState ,useEffect, useContext} from "react";
+import React, { useState ,useEffect, useContext, useRef} from "react";
 import axios from "axios";
 import {format} from "timeago.js";
 import {Link} from "react-router-dom";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import ReportIcon from '@mui/icons-material/Report';
 
 import {AuthContext} from "../../context/AuthContext";
 
@@ -48,6 +50,32 @@ export default function Post(props){
         }
         fetchUser();
     },[postDetails])
+
+    //for reporting a post or deleting a post
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef();
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setDropdownOpen(false);
+        }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    const handleDelete = async() => {
+        const confirmMsg=window.confirm("Delete Post?");
+        if(!confirmMsg) return;
+        try{
+            await axios.delete(`/api/posts/${postDetails._id}`, {data:{"userId":user._id}});
+            console.log("deleted post successfully");
+            window.location.reload();
+        }
+        catch(err){
+            console.log(err);
+        }
+    };
     
     return (
         <div className="postContainer">
@@ -64,7 +92,16 @@ export default function Post(props){
                         <span className="postedTime">{format(postDetails.createdAt)}</span>
                     </div>
                     <div className="postTopRight">
-                        <MoreVert className="postDropDownIcon"/>
+                        <div className="dropdown" ref={dropdownRef}>
+                            <MoreVert className="postDropDownIcon" onClick={() => setDropdownOpen(!dropdownOpen)}/>
+                            <ul className={`dropdown-menu  postDropdownMenu dropdown-menu-end mt-2 ${dropdownOpen ? 'show' : ''}`}>
+                                {postedUser.username===user.username?
+                                <li className="dropdown-item postDropdownItem" onClick={handleDelete}><DeleteOutlineIcon />Delete</li>
+                                :
+                                <li className="dropdown-item postDropdownItem" ><ReportIcon />Report</li>
+                                }
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div className="postMiddleSection">

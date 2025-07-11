@@ -24,7 +24,7 @@ export default function Feed({username}){
                 console.log(res.data);
             } 
             catch (err) {
-            console.error("Error fetching posts:", err); // ✅ catches the promise error
+            console.error("Error fetching posts:", err);
             }
         }
         fetchPosts();
