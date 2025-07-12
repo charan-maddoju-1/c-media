@@ -7,9 +7,11 @@ import { AuthContext } from "../../context/AuthContext";
 import { useContext,useState,useRef,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { logoutCall } from "../../apiCalls";
+
 function Topbar(){
     const PF=process.env.REACT_APP_PUBLIC_FOLDER;
-    const {user}=useContext(AuthContext);
+    const {user,dispatch}=useContext(AuthContext);
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef();
@@ -26,8 +28,8 @@ function Topbar(){
     const navigate=useNavigate();
     const handleLogout = () => {
         // alert("Logging out...");
+        logoutCall(dispatch);
         navigate("/login",{replace:"true"});
-        // Add your logout logic here (e.g., clearing token/session and redirect)
     };
 
 

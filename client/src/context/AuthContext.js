@@ -17,7 +17,8 @@ const INITIAL_STATE={
     // "from": "",
     // "profession": "",
     // },
-    user:null,
+    user:JSON.parse(localStorage.getItem("user"))||null,
+    jwt_token:localStorage.getItem("token")||null,
     isFetching:false,
     error:false
 }
@@ -31,6 +32,7 @@ export const AuthContextProvider=({children})=>{
     return (
         <AuthContext.Provider value={{
             user:state.user,
+            jwt_token:state.jwt_token,
             isFetching:state.isFetching,
             error:state.error,
             dispatch

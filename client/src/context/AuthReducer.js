@@ -3,13 +3,15 @@ const AuthReducer=(state,action)=>{
         case "LOGIN_START":
             return{
                 user:null,
+                jwt_token:null,
                 isFetching:true,
                 error:false
             };
             
         case "LOGIN_SUCCESS":
             return{
-                user:action.payLoad,
+                user:action.payLoad.user,
+                jwt_token:action.payLoad.jwt_token,
                 isFetching:false,
                 error:false
             };
@@ -17,8 +19,17 @@ const AuthReducer=(state,action)=>{
         case "LOGIN_FAILURE":
             return{
                 user:null,
+                jwt_token:null,
                 isFetching:false,
                 error:action.payLoad
+            };
+
+        case "LOGOUT":
+            return {
+                user: null,
+                jwt_token: null,
+                isFetching: false,
+                error: false
             };
         default:
             return state;
