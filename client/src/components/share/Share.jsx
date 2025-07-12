@@ -35,8 +35,7 @@ export default function Share(){
             }
             catch(err){
                 console.log(err);
-            }
-           
+            } 
         }
         try{
             await axios.post("/api/posts/",newPost);
