@@ -73,10 +73,10 @@ function Topbar(){
             <div className="dropdown" ref={dropdownRef}>
                 <img src={user.profilePicture!==""? PF+user.profilePicture:PF+"profile-pics/noProfile.jpeg"} alt="profile pic" className="topBarImage" onClick={() => setDropdownOpen(!dropdownOpen)} />
                 <ul className={`dropdown-menu dropdown-menu-end mt-2 ${dropdownOpen ? 'show' : ''}`}>
-                    <li><Link className="dropdown-item" to={`/profile/${user.username}`}>Profile</Link></li>
-                    <li><Link className="dropdown-item" to="/settings">Settings</Link></li>
+                    <li><Link className="dropdown-item dropdownItem" to={`/profile/${user.username}`}>Profile</Link></li>
+                    <li><Link className="dropdown-item dropdownItem" to="/settings">Settings</Link></li>
                     <li><hr className="dropdown-divider" /></li>
-                    <li><button className="dropdown-item" style={{color:"brown"}} onClick={handleLogout}>Logout</button></li>
+                    <li><button className="dropdown-item dropdownItem" style={{color:"brown"}} onClick={handleLogout}>Logout</button></li>
                 </ul>
             </div>
         </div>

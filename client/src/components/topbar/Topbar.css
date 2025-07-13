@@ -110,9 +110,9 @@
     cursor:pointer;
 }
 
-.dropdown-item{
+.dropdownItem{
     font-size: 14px;
-    font-weight: 100;
+    font-weight: 400;
 }
 
 .dropdown-menu {

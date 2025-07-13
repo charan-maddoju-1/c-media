@@ -19,7 +19,7 @@ export const loginCall=async(userCredential,dispatch)=>{
     }
 }
 
-export const logoutCall=async(dispatch)=>{
+export const logoutCall=(dispatch)=>{
     localStorage.removeItem("user");
     localStorage.removeItem("token");
 
