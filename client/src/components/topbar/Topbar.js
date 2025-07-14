@@ -32,7 +32,10 @@ function Topbar(){
         navigate("/login",{replace:"true"});
     };
 
-
+    const handleChatClick=()=>{
+        navigate("/chatter");
+        // window.open("/chatter", "_blank");//to open in new window
+    }
     return(
     <>  
     <div className="topbarContainer">
@@ -61,7 +64,7 @@ function Topbar(){
                     <span className="topBarIconBadge">1</span>
                 </div>
                 <div className="topBarIconItem">
-                    <Chat/>
+                    <Chat onClick={handleChatClick}/>
                     <span className="topBarIconBadge">3</span>
                 </div>
                 <div className="topBarIconItem">
@@ -70,7 +73,7 @@ function Topbar(){
                 </div>
             </div>
 
-            <div className="dropdown" ref={dropdownRef}>
+            {user && <div className="dropdown" ref={dropdownRef}>
                 <img src={user.profilePicture!==""? PF+user.profilePicture:PF+"profile-pics/noProfile.jpeg"} alt="profile pic" className="topBarImage" onClick={() => setDropdownOpen(!dropdownOpen)} />
                 <ul className={`dropdown-menu dropdown-menu-end mt-2 ${dropdownOpen ? 'show' : ''}`}>
                     <li><Link className="dropdown-item dropdownItem" to={`/profile/${user.username}`}>Profile</Link></li>
@@ -78,7 +81,7 @@ function Topbar(){
                     <li><hr className="dropdown-divider" /></li>
                     <li><button className="dropdown-item dropdownItem" style={{color:"brown"}} onClick={handleLogout}>Logout</button></li>
                 </ul>
-            </div>
+            </div>}
         </div>
     </div>
     

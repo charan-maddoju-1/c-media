@@ -11,13 +11,16 @@ const userRouter=require("./routes/users") //importing the user file created fro
 //So we can add different routes for different pages as we need
 const authRouter=require("./routes/auth") 
 const postRouter=require("./routes/posts") 
+const conversationRouter=require("./routes/conversation")
+const messageRouter=require("./routes/message")
+
 const path=require("path");
 const multer=require("multer");
 
 dotenv.config();//to use dotenv it is compulsory;
 
 // 
-mongoose.connect(process.env.MONGO_URL ,{useNewUrlParser : true}).then(()=>console.log('connected'))
+mongoose.connect(process.env.MONGO_URL ,{useNewUrlParser : true}).then(()=>console.log('connected to mongoDB'))
 .catch(e=>console.log(e));
 
 app.use((req, res, next) => {
@@ -53,6 +56,8 @@ app.use("/api/users",userRouter);
 //its works like a router so that whenever a particular request matches with this then we send it to some other router so that remaining url is compared and some response is sent to it
 app.use("/api/auth",authRouter);  
 app.use("/api/posts",postRouter); 
+app.use("/api/conversation",conversationRouter);
+app.use("/api/message",messageRouter);
 
 
 app.get("/",(req,res)=>{
