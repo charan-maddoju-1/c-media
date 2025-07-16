@@ -17,7 +17,7 @@ export default function Feed({username}){
                 if (username) {
                     res = await axios.get("/api/posts/profile/" + username);
                 } else {
-                    res = await axios.get("/api/posts/timeline/" + user._id);
+                    res = await axios.get("/api/posts/timeline/" + user?._id);
                 }
 
                 setPosts(res.data);
@@ -28,12 +28,12 @@ export default function Feed({username}){
             }
         }
         fetchPosts();
-    },[username,user._id])
+    },[username,user?._id])
     
     return(
         <div className="feedContainer">
             <div className="feedWrapper">
-                {((!username)||username===user.username)&&<Share/>}
+                {((!username)||username===user?.username)&&<Share/>}
                 {posts.map(eachPost=>
                     <Post key={eachPost._id} postDetails={eachPost}/>
                 )}

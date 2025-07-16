@@ -29,7 +29,8 @@ function Topbar(){
     const handleLogout = () => {
         // alert("Logging out...");
         logoutCall(dispatch);
-        navigate("/login",{replace:"true"});
+        // navigate("/login",{replace:"true"});
+        window.location.reload();
     };
 
     const handleChatClick=()=>{

@@ -16,10 +16,10 @@ const {user,isFetching,error,dispatch}=useContext(AuthContext);
 
 const handleClick=async (event)=>{
     event.preventDefault();
-    console.log(email.current.value,password.current.value);
+    // console.log(email.current.value,password.current.value);
     loginCall({email:email.current.value,password:password.current.value},dispatch);
 }
-console.log(user);
+// console.log(user);
 
 const navigate=useNavigate();
 const handleRegister=()=>{

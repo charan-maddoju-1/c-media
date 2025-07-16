@@ -49,7 +49,7 @@ export default function Share(){
 
     return(
         <div className="sharecontainer">
-            <div className="shareWrapper">
+            {user && <div className="shareWrapper">
                 <div className="shareTop">
                     <img src={user.profilePicture!==""?PF+user.profilePicture:PF+"profile-pics/noProfile.jpeg"} alt="" className="shareProfileImage" />
                     <input placeholder="What's in your mind buddy ?" type="text" className="shareInput" ref={description} />
@@ -92,6 +92,7 @@ export default function Share(){
                     <button className="shareButton" type="submit" >Share</button>
                 </form>
             </div>
+            }
         </div>
     )
 }

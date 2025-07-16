@@ -46,7 +46,7 @@ export default function Post(props){
         const fetchUser=async ()=>{
             const res=await axios.get(`/api/users?userId=${postDetails.userId}`);
             setUser(res.data);
-            console.log(res.data);
+            // console.log(res.data);
         }
         fetchUser();
     },[postDetails])
