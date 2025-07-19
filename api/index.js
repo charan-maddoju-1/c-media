@@ -7,6 +7,8 @@ const helmet=require("helmet");
 const dotenv=require("dotenv");
 const cors = require("cors");
 
+app.use("/assets", express.static("public/images"));
+
 app.use(cors({
   origin: ["http://localhost:3000","https://c-media.netlify.app"],
   credentials: true,              
