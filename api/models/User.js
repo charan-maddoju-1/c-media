@@ -21,11 +21,9 @@ const UserSchema=new mongoose.Schema({
     },
     profilePicture:{
         type:String,
-        default:""
     },
     coverPicture:{
         type:String,
-        default:""
     },
     relationship:{
         type:String,

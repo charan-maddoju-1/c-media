@@ -2,8 +2,26 @@ import "./sidebar.css"
 import { RssFeed, Chat, Group, VideoLibrary, Bookmarks, QuestionMarkRounded, WorkOutlineOutlined, Event, SchoolOutlined} from "@mui/icons-material"
 import {Users} from "../../dummyData";
 import CloseFriends from "../closeFriends/CloseFriends";
+import { useState, useEffect, useContext } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import {AuthContext} from "../../context/AuthContext"
 
 export default function Sidebar(){
+    const {user:currentUser}=useContext(AuthContext);
+    const [users,setUsers]=useState([]);
+    useEffect(()=>{
+        const getRandomUsers=async()=>{
+            try{
+                const res=await axios.get("/api/users/random");
+                setUsers(res.data);
+            }catch(err){
+                console.log(err);
+            }
+        }
+        getRandomUsers();
+    },[]);
+
     return(
         <div className="sidebarContainer">
             <div className="sidebarWrapper">
@@ -47,9 +65,12 @@ export default function Sidebar(){
                 </ul>
                 <button className="sidebarButton">Show more</button>
                 <hr className="hrStyle" />
+                <h4 className="recommendedFriends">People you may know</h4>
                 <ul className="sidebarFriendsList">
-                    {Users.map(friend=>(
-                        <CloseFriends key={friend.id} friendDetails={friend} />
+                    {users.map(user=>(
+                        <Link className="randomUser" to={`/profile/${user.username}`} key={user._id}>
+                            {user._id!==currentUser._id&&<CloseFriends key={user.id} friendDetails={user} />}
+                        </Link>
                     ))}
                 </ul>
             </div>

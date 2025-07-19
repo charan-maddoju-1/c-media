@@ -31,6 +31,16 @@ const AuthReducer=(state,action)=>{
                 isFetching: false,
                 error: false
             };
+
+        case "UPDATE_FOLLOWING":
+            return{
+                ...state,
+                user: {
+                    ...state.user,
+                    following: action.payload,
+                },
+            };
+            
         default:
             return state;
     }

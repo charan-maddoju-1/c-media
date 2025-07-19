@@ -3,17 +3,25 @@ const Conversation=require("../models/conversation");
 
 //new Convo
 router.post("/",async (req,res)=>{
-    const newConversation=new Conversation({
-        members:[req.body.senderId, req.body.receiverId],
+    const chat = await Conversation.findOne({
+        members: { $all: [req.body.senderId, req.body.receiverId] }
     });
-
-    try{
-        const savedConversation=await newConversation.save();
-        res.status(200).json(savedConversation);
+    if(!chat){
+        const newConversation=new Conversation({
+            members:[req.body.senderId, req.body.receiverId],
+        });
+        try{
+            const savedConversation=await newConversation.save();
+            res.status(200).json(savedConversation);
+        }
+        catch(err){
+            res.status(500).json(err);
+        }
     }
-    catch(err){
-        res.status(500).json(err);
+    else{
+        res.json(chat);
     }
+    
 })
 //get a user convo
 

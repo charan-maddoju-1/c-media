@@ -3,7 +3,7 @@ import Home from "./pages/home-page/Home.jsx";
 import Profile from './pages/profile/Profile.jsx';
 import Login from './pages/login/Login.jsx';
 import Register from './pages/register/register.jsx';
-import Messenger from './pages/chatter/Chatter.jsx';
+import Chatter from './pages/chatter/Chatter.jsx';
 import {BrowserRouter,Routes,Route,Navigate} from "react-router-dom"
 // import ProtectedRoute from './pages/ProtectedRoute/index.js';
 import NotFound from './pages/NotFound/index.js';
@@ -26,9 +26,9 @@ function App() {
             
                 <Route path="/login" element={user?<Navigate to="/"/>:<Login/>}/>
                 <Route path="/register" element={user?<Navigate to="/"/>:<Register />} />
-                <Route path="/chatter" element={!user?<Navigate to="/"/>:<Messenger />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/profile/:username" element={<Profile />} />
+                <Route path="/chatter" element={!user?<Navigate to="/"/>:<Chatter />} />
+                <Route path="/home" element={!user?<Navigate to="/"/>:<Home />} />
+                <Route path="/profile/:username" element={!user?<Navigate to="/"/>:<Profile />} />
             <Route  path="*" element={<NotFound/>}/>
             
         </Routes>

@@ -123,7 +123,7 @@ router.put("/:id/unfollow",async (req,res) => {
         try{
             const user=await User.findById(req.params.id);
             const currentUser=await User.findById(req.body.userId);
-            if(user.followers.includes(req.body.userId)){
+            if(currentUser.following.includes(req.params.id)){
                 await user.updateOne({$pull:{"followers":req.body.userId}});
                 await currentUser.updateOne({$pull:{"following":req.params.id}});
                 res.status(200).json("user unfollowed");
@@ -140,5 +140,24 @@ router.put("/:id/unfollow",async (req,res) => {
         res.status(500).json("You can't follow yourself");
     }
 })
+
+
+//get all users
+router.get("/random",async(req,res)=>{
+    try{
+        const count=parseInt(req.query.count)||5;
+        const users=await User.aggregate([{$sample:{size:count}}]);
+        let randomUsers=[];
+        users.map(user=>{
+            const {_id,username,profilePicture}=user;
+            randomUsers.push({_id,username,profilePicture});
+        });
+        res.status(200).json(randomUsers);
+    }catch(err){
+        res.status(500).json(err);
+    }
+})
+
+
 
 module.exports=router;

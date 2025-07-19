@@ -43,13 +43,17 @@
     list-style-type: none;
 }
 
+.rightbarButtonsContainer{
+    display: flex;
+    justify-content: space-between;
+}
 
 .rightbarFollowButton{
     display: flex;
     justify-content: center;
     align-items: center;
     height:40px;
-    width:50%;
+    width:45%;
     outline: none;
     border-radius: 8px;
     background-color: rgb(48, 111, 238);
@@ -59,9 +63,29 @@
     margin-bottom: 10px;
 }
 
+.rightbarUnFollowButton{
+    background-color: rgba(238, 48, 48, 0.875);  
+}
+
+.rightbarMessageButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:40px;
+    width:45%;
+    outline: none;
+    border-radius: 8px;
+    background-color: rgba(46, 255, 5, 0.75);
+    color: rgb(0, 0, 0);
+    border:none;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
 
 .rightbarTitle{
-    font-size: 16px;
+    margin-top:10px;
+    font-size: 18px;
+    font-weight: 500;
     margin-bottom:10px;
 }
 .rightbarInfo{

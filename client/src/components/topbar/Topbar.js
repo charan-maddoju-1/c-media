@@ -30,7 +30,6 @@ function Topbar(){
         // alert("Logging out...");
         logoutCall(dispatch);
         // navigate("/login",{replace:"true"});
-        window.location.reload();
     };
 
     const handleChatClick=()=>{
@@ -75,7 +74,7 @@ function Topbar(){
             </div>
 
             {user && <div className="dropdown" ref={dropdownRef}>
-                <img src={user.profilePicture!==""? PF+user.profilePicture:PF+"profile-pics/noProfile.jpeg"} alt="profile pic" className="topBarImage" onClick={() => setDropdownOpen(!dropdownOpen)} />
+                <img src={user.profilePicture? user.profilePicture:PF+"profile-pics/noProfile.jpeg"} alt="profile pic" className="topBarImage" onClick={() => setDropdownOpen(!dropdownOpen)} />
                 <ul className={`dropdown-menu dropdown-menu-end mt-2 ${dropdownOpen ? 'show' : ''}`}>
                     <li><Link className="dropdown-item dropdownItem" to={`/profile/${user.username}`}>Profile</Link></li>
                     <li><Link className="dropdown-item dropdownItem" to="/settings">Settings</Link></li>

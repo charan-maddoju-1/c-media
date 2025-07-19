@@ -8,9 +8,16 @@ import {io} from "socket.io-client";
 
 import {useContext, useRef, useState, useEffect} from "react";
 import axios from "axios";
+import { useSearchParams } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
-export default function Chatterr(){
-    //dealing input textarea element size
+export default function Chatter(props){
+
+    const [serachParameters]=useSearchParams();
+    const conversationId=serachParameters.get("convoId");
+    console.log(conversationId);
+
+
     const textareaRef = useRef();
     const handleInput = () => {
         const textarea = textareaRef.current;
@@ -27,6 +34,8 @@ export default function Chatterr(){
     const[newMessage,setNewMessage]=useState("");
     const[arrivalMessage,setArrivalMessage]=useState("");
     const[onlineUsers,setOnlineUsers]=useState([]);
+
+    const[msgLoading,setMsgLoading]=useState(true);
 
     const socket=useRef();
 
@@ -68,6 +77,7 @@ export default function Chatterr(){
                 const res=await axios.get("/api/conversation/"+user._id);
                 // console.log(res);
                 setConversations(res.data);
+                
             }catch(err){
                 console.log(err);
             }  
@@ -75,15 +85,28 @@ export default function Chatterr(){
         getconversations();
     },[user._id]);
 
+    useEffect(() => {
+        if (conversationId && conversations.length > 0) {
+            const matched = conversations.find(c => c._id === conversationId);
+            console.log("currentChat ",matched);
+            setcurrentChat(matched); 
+        }   
+    }, [conversations, conversationId]);
+
     useEffect(()=>{
         const getMessages=async()=>{
             try{
+                // console.log("In messages ",currentChat);
+                setMsgLoading(true);
                 const res=await axios.get("api/message/"+currentChat?._id);
                 setMessages(res.data);
+                setMsgLoading(false);
             }
             catch(err){
+                setMsgLoading(false);
                 console.log(err);
             }  
+            
         }
         getMessages();
     },[currentChat?._id])
@@ -119,6 +142,10 @@ export default function Chatterr(){
         scrollRef.current?.scrollIntoView({behavior:"smooth"});
     },[messages])
 
+    const handleClick=(e,convo)=>{
+        // e.target.style.backgroundColor="rgba(241, 241, 241, 0.884)";
+        setcurrentChat(convo);
+    }
 
     return(
         <>
@@ -128,7 +155,7 @@ export default function Chatterr(){
                     <div className="chatMenuWrapper">
                         <input type="text" placeholder="Search for a friend" className="chatMenuInput" />
                         {conversations.map(convo=>
-                            <div key={convo._id} onClick={()=>setcurrentChat(convo)}>
+                            <div key={convo._id} onClick={(e)=>handleClick(e,convo)}>
                                 <Conversations conversation={convo} currentUser={user}/>
                             </div>  
                         )}
@@ -140,12 +167,21 @@ export default function Chatterr(){
                             currentChat?
                             <>
                                 <div className="chatBoxTop">
-                                    {messages.map((msg)=>(
-                                        <div ref={scrollRef} key={msg._id}>
-                                            <Message message={msg} own={msg.senderId===user?._id ? "yes":"No"} />
-                                        </div>
-                                       
-                                    ))}
+                                    {msgLoading?
+                                    <div className="loadingContainer">
+                                        <CircularProgress/>
+                                    </div>
+                                    :
+                                    <div>
+                                        {messages.map((msg)=>(
+                                            <div ref={scrollRef} key={msg._id}>
+                                                <Message message={msg} own={msg.senderId===user?._id ? "yes":"No"} />
+                                            </div>
+                                        
+                                        ))} 
+                                    </div>
+                                    }
+                                    
                                 </div>
                                 <div className="chatBoxBottom">
                                     <textarea 

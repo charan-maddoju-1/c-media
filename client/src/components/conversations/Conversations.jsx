@@ -23,7 +23,7 @@ export default function Conversations(props){
     return (
         <>
             {user&&<div className="conversation">
-                <img src={user.profilePicture !== "" ? PF + user.profilePicture : PF + "profile-pics/noProfile.jpeg"} alt="" className="conversationImage" />
+                <img src={user.profilePicture ? user.profilePicture : PF + "profile-pics/noProfile.jpeg"} alt="" className="conversationImage" />
                 <span className="conversationName">{user.username}</span>
             </div>}
         </>

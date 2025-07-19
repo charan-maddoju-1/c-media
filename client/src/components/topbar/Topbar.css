@@ -77,7 +77,8 @@
     font-size: 14px;
     cursor: pointer;
     text-decoration: none;
-    color:aliceblue
+    color:rgb(249, 252, 255);
+    font-weight:400;
 }
 
 .topBarIcons{
@@ -93,8 +94,8 @@
     width: 15px;
     height: 15px;
     position:absolute;
-    top:-5px;
-    right:-5px;
+    top:0px;
+    right:-3px;
     background-color: rgb(188, 11, 132);
     border-radius: 50%;
     display: flex;

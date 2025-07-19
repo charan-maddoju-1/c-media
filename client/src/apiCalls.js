@@ -22,6 +22,6 @@ export const loginCall=async(userCredential,dispatch)=>{
 export const logoutCall=(dispatch)=>{
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-
     dispatch({ type: "LOGOUT" });
+    window.location.reload();
 }

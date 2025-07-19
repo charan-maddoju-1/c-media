@@ -25,8 +25,8 @@ export default function Post(props){
     const [isLiked, setIsLiked]=useState(false);
 
     useEffect(()=>{
-        setIsLiked(postDetails.likes.includes(user._id));
-    },[user._id]);
+        setIsLiked(postDetails.likes.includes(user?._id));
+    },[user?._id]);
     const likeHandler=()=>{
         // console.log("hello");
         try{
@@ -84,7 +84,7 @@ export default function Post(props){
                     <div className="postTopLeft">
                         <Link to={`/profile/${postedUser.username}`}>
                         <img 
-                        src={postedUser.profilePicture!==""? PF+postedUser.profilePicture: PF+"profile-pics/noProfile.jpeg"} 
+                        src={postedUser.profilePicture ? postedUser.profilePicture : PF+"profile-pics/noProfile.jpeg"} 
                         alt="" className="postProfileImage" 
                         />
                         </Link>
@@ -106,7 +106,7 @@ export default function Post(props){
                 </div>
                 <div className="postMiddleSection">
                         <p className="postDescription">{postDetails?.description}</p>
-                    <img src={postDetails.image!==""?PF+postDetails.image:null} alt="" className="postImage" />
+                    <img src={postDetails.image} alt="" className="postImage" />
                 </div>
                 <div className="postBottomSection">
                     <div className="postBottomLeft">
