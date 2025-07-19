@@ -5,6 +5,13 @@ const mongoose=require("mongoose");
 const morgan=require("morgan");
 const helmet=require("helmet");
 const dotenv=require("dotenv");
+const cors = require("cors");
+
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true,              
+}));
+
 
 const userRouter=require("./routes/users") //importing the user file created from routes
 //Now we can use it as a router 
