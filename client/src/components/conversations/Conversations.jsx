@@ -6,12 +6,13 @@ export default function Conversations(props){
     const {conversation,currentUser}=props;
     const [user,setUser]=useState(null);
     const PF=process.env.REACT_APP_PUBLIC_FOLDER;
+    const apiUrl=process.env.REACT_APP_API_URL;
 
     useEffect(()=>{
         const friendId=conversation.members.find((m) => m!==currentUser._id);
         const getFriendDetails=async()=>{
             try{
-                const res=await axios.get("api/users?userId="+friendId);
+                const res=await axios.get(apiUrl+"/api/users?userId="+friendId);
                 setUser(res.data);
             }catch(err){
                 console.log(err);

@@ -15,6 +15,7 @@ import {AuthContext} from "../../context/AuthContext";
 export default function Post(props){
     //making public folder accessible 
     const PF= process.env.REACT_APP_PUBLIC_FOLDER;
+    const apiUrl=process.env.REACT_APP_API_URL;
     //
     // console.log(PF);
     const {postDetails}=props;
@@ -30,7 +31,7 @@ export default function Post(props){
     const likeHandler=()=>{
         // console.log("hello");
         try{
-            axios.put(`/api/posts/${postDetails._id}/like`,{"userId":user._id});
+            axios.put(`${apiUrl}/api/posts/${postDetails._id}/like`,{"userId":user._id});
             // console.log("like sent to mongodb");
         }
         catch(err){
@@ -44,7 +45,7 @@ export default function Post(props){
     const [postedUser, setUser]=useState({});
     useEffect(()=>{
         const fetchUser=async ()=>{
-            const res=await axios.get(`/api/users?userId=${postDetails.userId}`);
+            const res=await axios.get(`${apiUrl}/api/users?userId=${postDetails.userId}`);
             setUser(res.data);
             // console.log(res.data);
         }
@@ -68,7 +69,7 @@ export default function Post(props){
         const confirmMsg=window.confirm("Delete Post?");
         if(!confirmMsg) return;
         try{
-            await axios.delete(`/api/posts/${postDetails._id}`, {data:{"userId":user._id}});
+            await axios.delete(`${apiUrl}/api/posts/${postDetails._id}`, {data:{"userId":user._id}});
             console.log("deleted post successfully");
             window.location.reload();
         }

@@ -11,6 +11,7 @@ export default function Feed({username}){
     const [posts,setPosts]=useState([]);
     const {user}=useContext(AuthContext);
     const [loading, setLoading]=useState(true);
+    const apiUrl=process.env.REACT_APP_API_URL;
 
     useEffect(()=>{
         const fetchPosts=async ()=>{
@@ -18,13 +19,13 @@ export default function Feed({username}){
                 let res;
                 setLoading(true);
                 if (username) {
-                    res = await axios.get("/api/posts/profile/" + username);
+                    res = await axios.get(apiUrl+"/api/posts/profile/" + username);
                 } else {
-                    res = await axios.get("/api/posts/timeline/" + user?._id);
+                    res = await axios.get(apiUrl+"/api/posts/timeline/" + user?._id);
                 }
                 setLoading(false);
                 setPosts(res.data);
-                console.log(res.data);
+                // console.log(res.data);
             } 
             catch (err) {
             console.error("Error fetching posts:", err);

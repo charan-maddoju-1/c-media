@@ -17,6 +17,7 @@ export default function Register() {
     const confirmPassword=useRef(); 
 
     const navigate=useNavigate();
+    const apiUrl=process.env.REACT_APP_API_URL;
     
     const handleClick=async (event)=>{
         event.preventDefault();
@@ -34,7 +35,7 @@ export default function Register() {
                 "password":password.current.value
             }
             try{
-                await axios.post("api/auth/register",user);
+                await axios.post(apiUrl+"/api/auth/register",user);
                 navigate("/login",{replace:true});
             }
             catch (err) {

@@ -13,6 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 export default function Rightbar(props){
     const {user}=props;
     const PF=process.env.REACT_APP_PUBLIC_FOLDER;
+    const apiUrl=process.env.REACT_APP_API_URL;
     const [friends,setFriends]=useState([]);
     const {user:currentUser,dispatch}=useContext(AuthContext);
 
@@ -25,14 +26,14 @@ export default function Rightbar(props){
     }
     }, [currentUser, user]);
     
-    console.log("is following ? ",currentUser?.following?.includes(user?._id));
-    console.log("current user",currentUser.following);
-    console.log("user",user?.followers);
+    // console.log("is following ? ",currentUser?.following?.includes(user?._id));
+    // console.log("current user",currentUser.following);
+    // console.log("user",user?.followers);
 
     useEffect(()=>{
         const getFriends=async()=>{
             try{
-                const friendsList=await axios.get(`/api/users/friends/${user?._id}`);
+                const friendsList=await axios.get(`${apiUrl}/api/users/friends/${user?._id}`);
                 setFriends(friendsList?.data);
             }catch(err){
                 console.log(err);
@@ -65,14 +66,14 @@ export default function Rightbar(props){
         try{
             if(followed){
                 setLoading(true);
-                await axios.put(`/api/users/${user._id}/unfollow`,{userId:currentUser._id});
+                await axios.put(`${apiUrl}/api/users/${user._id}/unfollow`,{userId:currentUser._id});
                 setLoading(false);
                 const updatedFollowing = currentUser.following.filter(id => id !== user._id);
                 dispatch({ type: "UPDATE_FOLLOWING", payload: updatedFollowing });
             }
             else{
                 setLoading(true);
-                await axios.put(`/api/users/${user._id}/follow`,{userId:currentUser._id}); 
+                await axios.put(`${apiUrl}/api/users/${user._id}/follow`,{userId:currentUser._id}); 
                 setLoading(false);
                 const updatedFollowing =[...currentUser.following,user._id];
                 dispatch({ type: "UPDATE_FOLLOWING", payload: updatedFollowing });
@@ -90,7 +91,7 @@ export default function Rightbar(props){
     const navigate=useNavigate();
     const handleMessage=async()=>{
         try{
-            const res=await axios.post("/api/conversation",{senderId:currentUser._id,receiverId:user._id});
+            const res=await axios.post(apiUrl+"/api/conversation",{senderId:currentUser._id,receiverId:user._id});
             // console.log(res);
             navigate(`/Chatter?convoId=${res.data._id}`)
         }catch(err){

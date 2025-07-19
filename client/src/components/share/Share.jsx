@@ -9,6 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 export default function Share(){
     const PF=process.env.REACT_APP_PUBLIC_FOLDER;
+    const apiUrl=process.env.REACT_APP_API_URL;
     const {user}=useContext(AuthContext);
     const [loading,setLoading]=useState(false);
 
@@ -44,9 +45,9 @@ export default function Share(){
             // newPost.image=fileName;
             try{
                 setLoading(true);
-                const res=await axios.post(`/api/upload`,data);
+                const res=await axios.post(`${apiUrl}/api/upload`,data);
                 newPost.image=res.data.url;
-                await axios.post("/api/posts/",newPost);
+                await axios.post(apiUrl+"/api/posts/",newPost);
                 window.location.reload();
                 console.log("post submitted");
             }
@@ -58,7 +59,7 @@ export default function Share(){
         else{
             try{
                 setLoading(true);
-                await axios.post("/api/posts/",newPost);
+                await axios.post(apiUrl+"/api/posts/",newPost);
                 window.location.reload();
             }   
             catch(err){
@@ -113,7 +114,7 @@ export default function Share(){
                         </div>
                     </div>
                     <button className="shareButton" type="submit" >
-                       {loading? <CircularProgress color="white" />: "Share" } 
+                       {loading? <CircularProgress color="white" size="15px"/>: "Share" } 
                        {/* share */}
                     </button>
                 </form>

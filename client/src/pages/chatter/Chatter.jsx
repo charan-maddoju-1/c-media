@@ -12,6 +12,7 @@ import { useSearchParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export default function Chatter(props){
+    const apiUrl=process.env.REACT_APP_API_URL;
 
     const [serachParameters]=useSearchParams();
     const conversationId=serachParameters.get("convoId");
@@ -40,7 +41,7 @@ export default function Chatter(props){
     const socket=useRef();
 
     useEffect(()=>{
-        socket.current=io("ws://localhost:8900");
+        socket.current=io("https://c-media.onrender.com");
         socket.current.on("getMessage",(data)=>{
             setArrivalMessage({
                 senderId:data.senderId,
@@ -74,7 +75,7 @@ export default function Chatter(props){
     useEffect(()=>{
         const getconversations=async()=>{
             try{
-                const res=await axios.get("/api/conversation/"+user._id);
+                const res=await axios.get(apiUrl+"/api/conversation/"+user._id);
                 // console.log(res);
                 setConversations(res.data);
                 
@@ -98,7 +99,7 @@ export default function Chatter(props){
             try{
                 // console.log("In messages ",currentChat);
                 setMsgLoading(true);
-                const res=await axios.get("api/message/"+currentChat?._id);
+                const res=await axios.get(apiUrl+"/api/message/"+currentChat?._id);
                 setMessages(res.data);
                 setMsgLoading(false);
             }
@@ -113,6 +114,10 @@ export default function Chatter(props){
 
     const handleSend=async (event)=>{
         event.preventDefault();
+        if (newMessage.trim().length === 0) {
+            // Ignoring submission if text is empty or only spaces
+            return;
+        }
         const message={
             senderId:user?._id,
             text:newMessage,
@@ -127,7 +132,7 @@ export default function Chatter(props){
         })
 
         try{
-            const res=await axios.post("/api/message",message);
+            const res=await axios.post(apiUrl+"/api/message",message);
             setMessages([...messages,res.data]);
             setNewMessage("");
         }catch(err){

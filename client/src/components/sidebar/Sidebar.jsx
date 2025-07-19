@@ -10,10 +10,11 @@ import {AuthContext} from "../../context/AuthContext"
 export default function Sidebar(){
     const {user:currentUser}=useContext(AuthContext);
     const [users,setUsers]=useState([]);
+    const apiUrl=process.env.REACT_APP_API_URL;
     useEffect(()=>{
         const getRandomUsers=async()=>{
             try{
-                const res=await axios.get("/api/users/random");
+                const res=await axios.get(apiUrl+"/api/users/random");
                 setUsers(res.data);
             }catch(err){
                 console.log(err);
