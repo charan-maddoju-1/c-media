@@ -8,7 +8,7 @@ const dotenv=require("dotenv");
 const cors = require("cors");
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000","https://c-media.netlify.app"],
   credentials: true,              
 }));
 
