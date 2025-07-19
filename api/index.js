@@ -1,13 +1,13 @@
 const express=require("express");
 const app=express(); //initiaising express server
-
+const path=require("path");
 const mongoose=require("mongoose");
 const morgan=require("morgan");
 const helmet=require("helmet");
 const dotenv=require("dotenv");
 const cors = require("cors");
 
-app.use("/assets", express.static("public/images"));
+app.use("/assets", express.static(path.join(__dirname, "public/images")));
 
 app.use(cors({
   origin: ["http://localhost:3000","https://c-media.netlify.app"],
